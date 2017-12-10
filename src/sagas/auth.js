@@ -21,17 +21,14 @@ export function* authFlow() {
     if (!isAuthorized) {
       if (localStorageToken) {
         token = localStorageToken;
+        yield put(authLoginSuccess());
       } else {
         const action = yield take([authLoginSuccess, authRegistrationSuccess]);
         token = action.payload;
       }
     }
-
     yield call(setTokenApi, token);
     yield call(setTokenToLocalStorage, token);
-
-    yield put(authLoginSuccess());
-
     yield take(logout);
     yield call(removeTokenFromLocalStorage);
     yield call(clearTokenApi);

@@ -6,11 +6,7 @@ import particlesParams from "../../particles-params";
 import { Button, Segment, Input } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { authLoginRequest, authRegistrationRequest } from "../../actions/auth";
-import {
-  getIsAuthorized,
-  getLoginError,
-  getRegistrationError
-} from "../../reducers/auth";
+import { getLoginError, getRegistrationError } from "../../reducers/auth";
 
 //styles
 const Wrapper = styled.main`
