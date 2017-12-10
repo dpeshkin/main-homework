@@ -37,6 +37,6 @@ export default combineReducers({
   registationError
 });
 
-export const getIsAuthorized = state => state.auth.isAutorized;
+export const getIsAuthorized = state => state.auth.isAuthorized;
 export const getLoginError = state => state.auth.loginError;
 export const getRegistrationError = state => state.auth.registationError;

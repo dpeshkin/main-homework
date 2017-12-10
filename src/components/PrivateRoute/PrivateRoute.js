@@ -11,7 +11,7 @@ export class PrivateRoute extends PureComponent {
       <Route
         {...rest}
         render={props =>
-          isAuthorized ? <Component {...props} /> : <Redirect to="/" />
+          isAuthorized ? <Component {...props} /> : <Redirect to="/login" />
         }
       />
     );
