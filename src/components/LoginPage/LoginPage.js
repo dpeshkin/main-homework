@@ -64,16 +64,17 @@ export class LoginPage extends Component {
     isAuthorized
       ? this.props.authLoginRequest({ email, password })
       : this.props.authRegistrationRequest({ email, password });
-    console.log();
   };
 
-  toggleForm = () => {
+  toggleForm = e => {
+    e.preventDefault();
     const { isAuthorized } = this.state;
     this.setState({ isAuthorized: !isAuthorized });
   };
 
   render() {
     const { isAuthorized } = this.state;
+    const { loginError, registrationError } = this.props;
     return (
       <Wrapper>
         <Particles
@@ -112,18 +113,30 @@ export class LoginPage extends Component {
             </form>
           </Segment>
 
+          {loginError || registrationError ? (
+            <Segment raised textAlign="center" size="large">
+              {(loginError && <p className="error-message">{loginError}</p>) ||
+                (registrationError &&
+                  Object.keys(registrationError).map(type => (
+                    <p className="error-message" key={type}>{`${type}: ${
+                      registrationError[type]
+                    }`}</p>
+                  )))}
+            </Segment>
+          ) : null}
+
           <Segment raised textAlign="center" size="large">
             {isAuthorized ? (
               <div>
                 Впервые на сайте?{" "}
-                <a href="#" onClick={this.toggleForm}>
+                <a href="" onClick={this.toggleForm}>
                   Регистрация
                 </a>
               </div>
             ) : (
               <div>
                 Уже зарегистрированы?{" "}
-                <a href="#" onClick={this.toggleForm}>
+                <a href="" onClick={this.toggleForm}>
                   Войти
                 </a>
               </div>
@@ -138,7 +151,7 @@ export class LoginPage extends Component {
 const mapStateToProps = state => ({
   isAuthorized: getIsAuthorized(state),
   loginError: getLoginError(state),
-  registationError: getRegistrationError(state)
+  registrationError: getRegistrationError(state)
 });
 
 const mapDispatchToProps = {
