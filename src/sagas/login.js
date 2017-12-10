@@ -9,7 +9,7 @@ import {
 import { takeLatest, put, call } from "redux-saga/effects";
 import { login, registration } from "../api";
 
-function* registrationFlow(action) {
+export function* registrationFlow(action) {
   try {
     const result = yield call(registration, action.payload);
     yield put(authRegistrationSuccess(result.data.jwt));
@@ -18,7 +18,7 @@ function* registrationFlow(action) {
   }
 }
 
-function* loginFlow(action) {
+export function* loginFlow(action) {
   try {
     const result = yield call(login, action.payload);
     yield put(authLoginSuccess(result.data.jwt));
