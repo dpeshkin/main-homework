@@ -4,6 +4,13 @@ import logo from "../../images/icons/Logo.svg";
 import Particles from "react-particles-js";
 import particlesParams from "../../particles-params";
 import { Button, Segment, Input } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { authLoginRequest, authRegistrationRequest } from "../../actions/auth";
+import {
+  getIsAuthorized,
+  getLoginError,
+  getRegistrationError
+} from "../../reducers/auth";
 
 //styles
 const Wrapper = styled.main`
@@ -38,9 +45,9 @@ const CustomInput = styled(Input)`
 `;
 //styles-end
 
-class Loginpage extends Component {
+export class LoginPage extends Component {
   state = {
-    name: "",
+    email: "",
     password: "",
     isAuthorized: true
   };
@@ -53,6 +60,11 @@ class Loginpage extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    const { isAuthorized, email, password } = this.state;
+    isAuthorized
+      ? this.props.authLoginRequest({ email, password })
+      : this.props.authRegistrationRequest({ email, password });
+    console.log();
   };
 
   toggleForm = () => {
@@ -123,4 +135,15 @@ class Loginpage extends Component {
   }
 }
 
-export default Loginpage;
+const mapStateToProps = state => ({
+  isAuthorized: getIsAuthorized(state),
+  loginError: getLoginError(state),
+  registationError: getRegistrationError(state)
+});
+
+const mapDispatchToProps = {
+  authLoginRequest,
+  authRegistrationRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
