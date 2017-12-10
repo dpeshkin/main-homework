@@ -7,12 +7,9 @@ import {
   authRegistrationFailure
 } from "../actions/auth";
 
-const initialState = null;
-
 export const isAuthorized = handleActions(
   {
     [authLoginSuccess]: () => true,
-
     [authRegistrationSuccess]: () => true
   },
   false
@@ -20,23 +17,27 @@ export const isAuthorized = handleActions(
 
 export const loginError = handleActions(
   {
+    [authLoginSuccess]: () => null,
+    [authRegistrationSuccess]: () => null,
     [authLoginFailure]: (state, action) => action.payload
   },
-  initialState
+  null
 );
-export const registationError = handleActions(
+export const registrationError = handleActions(
   {
+    [authLoginSuccess]: () => null,
+    [authRegistrationSuccess]: () => null,
     [authRegistrationFailure]: (state, action) => action.payload
   },
-  initialState
+  null
 );
 
 export default combineReducers({
   isAuthorized,
   loginError,
-  registationError
+  registrationError
 });
 
 export const getIsAuthorized = state => state.auth.isAuthorized;
 export const getLoginError = state => state.auth.loginError;
-export const getRegistrationError = state => state.auth.registationError;
+export const getRegistrationError = state => state.auth.registrationError;

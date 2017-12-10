@@ -40,11 +40,6 @@ const FormWrapper = styled.div`
   max-width: 440px;
 `;
 
-const CustomInput = styled(Input)`
-  margin-bottom: 25px;
-`;
-//styles-end
-
 export class LoginPage extends Component {
   state = {
     email: "",
@@ -88,17 +83,20 @@ export class LoginPage extends Component {
 
           <Segment raised style={{ padding: "20px 20px 30px" }}>
             <form>
-              <CustomInput
+              <Input
                 fluid
+                style={{ marginBottom: 25 }}
                 icon="user"
                 iconPosition="left"
                 placeholder="email"
                 size="large"
                 onChange={this.handleChange}
                 name="email"
+                value={this.state.email}
               />
-              <CustomInput
+              <Input
                 fluid
+                style={{ marginBottom: 25 }}
                 icon="unlock alternate"
                 iconPosition="left"
                 placeholder="password"
@@ -106,6 +104,7 @@ export class LoginPage extends Component {
                 size="large"
                 onChange={this.handleChange}
                 name="password"
+                value={this.state.password}
               />
               <Button color="blue" fluid size="big" onClick={this.handleSubmit}>
                 {isAuthorized ? "Войти" : "Зарегистрироваться"}
@@ -149,7 +148,6 @@ export class LoginPage extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthorized: getIsAuthorized(state),
   loginError: getLoginError(state),
   registrationError: getRegistrationError(state)
 });
