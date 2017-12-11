@@ -1,5 +1,19 @@
 import React, { Component } from "react";
+import { LineChart } from "react-chartkick";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import {
+  getOffset,
+  getSelected,
+  getIsBtcLoading,
+  getIsEthLoading,
+  sellBtc,
+  purchaseBtc,
+  sellEth,
+  purchaseEth,
+  getMax,
+  getMin
+} from "../../reducers/currency";
 
 const Content = styled.div`
   display: flex;
@@ -20,14 +34,47 @@ const RightHeader = styled.div`
 
 class Score extends Component {
   render() {
+    const {
+      maxBtc,
+      minBtc,
+      maxEth,
+      minEth,
+      purchaseBtc,
+      purchaseEth,
+      sellBtc,
+      sellEth
+    } = this.props;
     return (
       <Content>
         <Right>
           <RightHeader>Окно графика</RightHeader>
+          <LineChart
+            data={[
+              { name: "Продажа", data: sellEth },
+              { name: "Покупка", data: purchaseEth }
+            ]}
+            min={minEth}
+            max={maxEth}
+            width={750}
+            height={400}
+          />
         </Right>
       </Content>
     );
   }
 }
 
-export default Score;
+const mapStateToProps = state => ({
+  maxBtc: getMax(state.currency.btc),
+  maxEth: getMax(state.currency.eth),
+  minBtc: getMin(state.currency.btc),
+  minEth: getMin(state.currency.eth),
+  purchaseBtc: purchaseBtc(state),
+  purchaseEth: purchaseEth(state),
+  sellBtc: sellBtc(state),
+  sellEth: sellEth(state)
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Score);
