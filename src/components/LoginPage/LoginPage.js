@@ -25,8 +25,6 @@ const Logo = styled.div`
 `;
 
 const ResponsiveImg = styled.img`
-  src: url(${props => props.src});
-  alt: url(${props => props.alt});
   width: 100%;
   height: 100%;
 `;
