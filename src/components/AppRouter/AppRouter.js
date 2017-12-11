@@ -11,9 +11,9 @@ export class AppRouter extends Component {
     const { isAuthorized } = this.props;
     return (
       <Switch>
-        <PrivateRoute path="/profile" component={MainPage} />
+        <PrivateRoute path="/trade/:currency" component={MainPage} />
         {!isAuthorized && <Route path="/login" component={LoginPage} />}
-        <Redirect to="/profile" />
+        <Redirect to="/trade/btc" />
       </Switch>
     );
   }

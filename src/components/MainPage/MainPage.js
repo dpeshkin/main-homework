@@ -11,12 +11,6 @@ const Main = styled.div`
 const Content = styled.div`
   flex: 1;
 `;
-const Container = styled.div`
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-`;
 
 export class MainPage extends Component {
   render() {
@@ -24,11 +18,8 @@ export class MainPage extends Component {
       <Main>
         <MainHeader />
         <Content>
-          <Container>
-            <Score />
-          </Container>
+          <Score />
         </Content>
-
         <MainFooter />
       </Main>
     );

@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { selectBtc, selectEth } from "../../actions/currency";
+import { sellBtc, sellEth } from "../../reducers/currency";
+import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import logoWhite from "../../images/icons/Logo-white.svg";
 
@@ -24,7 +28,7 @@ const Logo = styled.img`
   margin-right: auto;
 `;
 
-const CurrencyToggle = styled.div`
+const CurrencyToggle = styled(Link)`
   width: 140px;
   height: 100%;
   background-color: #404243;
@@ -43,18 +47,39 @@ const RoundedButton = styled.div`
 `;
 
 class MainHeader extends Component {
+  componentDidMount() {
+    const { selectBtc, selectEth } = this.props;
+    if (this.props.match.params.currency === "btc") {
+      selectBtc();
+    } else {
+      selectEth();
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    const { selectBtc, selectEth } = this.props;
+    if (
+      this.props.match.params.currency &&
+      this.props.match.params.currency !== nextProps.match.params.currency
+    ) {
+      if (this.props.match.params.currency === "btc") {
+        selectBtc();
+      } else {
+        selectEth();
+      }
+    }
+  }
   render() {
+    const { Btc, Eth } = this.props;
+    const { currency } = this.props.match.params;
     return (
       <div>
         <Topline>
           <Container>
             <Logo src={logoWhite} alt="j-trading logo" />
-            <CurrencyToggle>
-              22355
+            <CurrencyToggle to="/trade/btc">
               <b>1 BTC</b>
             </CurrencyToggle>
-            <CurrencyToggle>
-              451
+            <CurrencyToggle to="/trade/eth">
               <b>1 ETH</b>
             </CurrencyToggle>
             <RoundedButton>user123@mail.ru</RoundedButton>
@@ -65,4 +90,16 @@ class MainHeader extends Component {
   }
 }
 
-export default MainHeader;
+const mapStateToProps = state => ({
+  Btc: sellBtc(state),
+  Eth: sellEth(state)
+});
+
+const mapDispatchToProps = {
+  selectBtc,
+  selectEth
+};
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(MainHeader)
+);
