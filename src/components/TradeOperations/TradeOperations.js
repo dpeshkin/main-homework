@@ -110,13 +110,29 @@ class TradeOperations extends Component {
     inputFiat: 1,
     inputSell: this.props.sell,
     inputPurchase: this.props.purchase,
-    currentInput: "inputFiat"
+    currentInput: "inputFiat",
+    usd: this.props.walletUsd,
+    btc: this.props.walletBtc,
+    eth: this.props.walletEth
+  };
+
+  getDecimal = num => {
+    var str = "" + num;
+    var zeroPos = str.indexOf(".");
+    if (zeroPos === -1) return 0;
+    str = str.slice(zeroPos + 1);
+    return str;
   };
 
   componentWillReceiveProps(nextProps) {
-    const { sell, purchase } = nextProps;
+    const { walletUsd, walletBtc, walletEth, sell, purchase } = nextProps;
     const { currentInput } = this.state;
     this.changeInputs(currentInput, sell, purchase);
+    this.setState({
+      usd: walletUsd,
+      btc: walletBtc,
+      eth: walletEth
+    });
   }
   handleChange = event => {
     const { name, value } = event.target;
@@ -188,28 +204,22 @@ class TradeOperations extends Component {
   render() {
     const { error, currencyName } = this.props;
     const { inputFiat, inputSell, inputPurchase } = this.state;
+
+    const Currencies = ["usd", "btc", "eth"].map(el => (
+      <WalletCurrency>
+        <CurrencyQuantity>
+          <IntegerPart>{Math.floor(this.state[el]) + "."}</IntegerPart>
+          <DecimalPart>{this.getDecimal(this.state[el])}</DecimalPart>
+        </CurrencyQuantity>
+        {el.toUpperCase()}
+      </WalletCurrency>
+    ));
+
     return (
       <Container>
         <WalletWrapper>
           <h2>Ваш счет</h2>
-          <WalletCurrency>
-            <CurrencyQuantity>
-              <IntegerPart>100.</IntegerPart>
-              <DecimalPart>123</DecimalPart>
-            </CurrencyQuantity>USD
-          </WalletCurrency>
-          <WalletCurrency>
-            <CurrencyQuantity>
-              <IntegerPart>100.</IntegerPart>
-              <DecimalPart>123</DecimalPart>
-            </CurrencyQuantity>BTC
-          </WalletCurrency>
-          <WalletCurrency>
-            <CurrencyQuantity>
-              <IntegerPart>100.</IntegerPart>
-              <DecimalPart>123</DecimalPart>
-            </CurrencyQuantity>ETH
-          </WalletCurrency>
+          {Currencies}
         </WalletWrapper>
         <h2>Покупка/продажа</h2>
         <InputWrapper>

@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectBtc, selectEth } from "../../actions/currency";
-import {
-  sellBtc,
-  sellEth,
-  getIsBtcLoading,
-  getIsEthLoading
-} from "../../reducers/currency";
+import { currentBtcSell, currentEthSell } from "../../reducers/currency";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import logoWhite from "../../images/icons/Logo-white.svg";
@@ -63,9 +58,9 @@ class MainHeader extends Component {
   };
 
   getCurrencyValue = props => {
-    const { Btc, Eth, isBtcLoading, isEthLoading } = props;
-    if (!isBtcLoading) this.setState({ Btc: Math.round(Btc[0][1]) });
-    if (!isEthLoading) this.setState({ Eth: Math.round(Eth[0][1]) });
+    const { Btc, Eth } = props;
+    if (Btc) this.setState({ Btc: Math.round(Btc) });
+    if (Eth) this.setState({ Eth: Math.round(Eth) });
   };
 
   setCurrency = link => {
@@ -121,10 +116,8 @@ class MainHeader extends Component {
 }
 
 const mapStateToProps = state => ({
-  Btc: sellBtc(state),
-  Eth: sellEth(state),
-  isBtcLoading: getIsBtcLoading(state),
-  isEthLoading: getIsEthLoading(state)
+  Btc: currentBtcSell(state),
+  Eth: currentEthSell(state)
 });
 
 const mapDispatchToProps = {

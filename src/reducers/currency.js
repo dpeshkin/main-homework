@@ -71,6 +71,19 @@ export const getSelected = state => state.currency.selected;
 export const getIsBtcLoading = state => state.currency.isBtcLoading;
 export const getIsEthLoading = state => state.currency.isEthLoading;
 
+export const currentBtcPurchase = state => {
+  if (!state.currency.isBtcLoading) return state.currency.btc[0].purchase;
+};
+export const currentEthPurchase = state => {
+  if (!state.currency.isEthLoading) return state.currency.eth[0].purchase;
+};
+export const currentBtcSell = state => {
+  if (!state.currency.isBtcLoading) return state.currency.btc[0].sell;
+};
+export const currentEthSell = state => {
+  if (!state.currency.isEthLoading) return state.currency.eth[0].sell;
+};
+
 export const sellBtc = state =>
   state.currency.btc.map(item => [new Date(item.mts), item.sell]);
 export const purchaseBtc = state =>
