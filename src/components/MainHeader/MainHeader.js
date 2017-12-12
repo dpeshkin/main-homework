@@ -28,7 +28,7 @@ const Logo = styled.img`
   margin-right: auto;
 `;
 
-const CurrencyToggle = styled(Link)`
+const CurrencyLink = styled(Link)`
   width: 140px;
   height: 100%;
   background-color: #404243;
@@ -47,41 +47,41 @@ const RoundedButton = styled.div`
 `;
 
 class MainHeader extends Component {
-  componentDidMount() {
+  setCurrency = link => {
     const { selectBtc, selectEth } = this.props;
-    if (this.props.match.params.currency === "btc") {
+    if (link === "btc") {
       selectBtc();
     } else {
       selectEth();
     }
+  };
+
+  componentDidMount() {
+    const link = this.props.match.params.currency;
+    this.setCurrency(link);
   }
+
   componentWillReceiveProps(nextProps) {
-    const { selectBtc, selectEth } = this.props;
-    if (
-      this.props.match.params.currency &&
-      this.props.match.params.currency !== nextProps.match.params.currency
-    ) {
-      if (this.props.match.params.currency === "btc") {
-        selectBtc();
-      } else {
-        selectEth();
-      }
+    const link = this.props.match.params.currency;
+    const nextLink = nextProps.match.params.currency;
+    if (link && link !== nextLink) {
+      this.setCurrency(nextLink);
     }
   }
+
   render() {
     const { Btc, Eth } = this.props;
-    const { currency } = this.props.match.params;
     return (
       <div>
         <Topline>
           <Container>
             <Logo src={logoWhite} alt="j-trading logo" />
-            <CurrencyToggle to="/trade/btc">
+            <CurrencyLink to="/trade/btc">
               <b>1 BTC</b>
-            </CurrencyToggle>
-            <CurrencyToggle to="/trade/eth">
+            </CurrencyLink>
+            <CurrencyLink to="/trade/eth">
               <b>1 ETH</b>
-            </CurrencyToggle>
+            </CurrencyLink>
             <RoundedButton>user123@mail.ru</RoundedButton>
           </Container>
         </Topline>
