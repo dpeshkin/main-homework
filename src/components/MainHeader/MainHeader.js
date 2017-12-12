@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectBtc, selectEth } from "../../actions/currency";
-import { sellBtc, sellEth } from "../../reducers/currency";
+import {
+  sellBtc,
+  sellEth,
+  getIsBtcLoading,
+  getIsEthLoading
+} from "../../reducers/currency";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import logoWhite from "../../images/icons/Logo-white.svg";
@@ -37,7 +42,8 @@ const CurrencyLink = styled(Link)`
   justify-content: center;
   text-align: center;
   margin-right: 20px;
-  color: #c3c3c3;
+  color: ${props => (props.className === "active" ? "#fff" : "#c3c3c3")};
+  // color: #c3c3c3;
   &:hover {
     color: #fff;
   }
@@ -56,14 +62,10 @@ class MainHeader extends Component {
     Eth: 0
   };
 
-  getCurrencyValue = () => {
-    const { sellBtc, sellEth } = this.props;
-    sellBtc[0] && sellEth[0]
-      ? this.setState({
-          Btc: Math.round(sellBtc[0][1]),
-          Eth: Math.round(sellEth[0][1])
-        })
-      : null;
+  getCurrencyValue = props => {
+    const { Btc, Eth, isBtcLoading, isEthLoading } = props;
+    if (!isBtcLoading) this.setState({ Btc: Math.round(Btc[0][1]) });
+    if (!isEthLoading) this.setState({ Eth: Math.round(Eth[0][1]) });
   };
 
   setCurrency = link => {
@@ -86,20 +88,27 @@ class MainHeader extends Component {
     if (link && link !== nextLink) {
       this.setCurrency(nextLink);
     }
-    this.getCurrencyValue();
+    this.getCurrencyValue(nextProps);
   }
 
   render() {
+    const currency = this.props.match.params.currency;
     return (
       <div>
         <Topline>
           <Container>
             <Logo src={logoWhite} alt="j-trading logo" />
-            <CurrencyLink to="/trade/btc">
+            <CurrencyLink
+              className={currency === "btc" ? "active" : null}
+              to="/trade/btc"
+            >
               <b>{this.state.Btc}</b>
               <b>1 BTC</b>
             </CurrencyLink>
-            <CurrencyLink to="/trade/eth">
+            <CurrencyLink
+              className={currency === "eth" ? "active" : null}
+              to="/trade/eth"
+            >
               <b>{this.state.Eth}</b>
               <b>1 ETH</b>
             </CurrencyLink>
@@ -112,8 +121,10 @@ class MainHeader extends Component {
 }
 
 const mapStateToProps = state => ({
-  sellBtc: sellBtc(state),
-  sellEth: sellEth(state)
+  Btc: sellBtc(state),
+  Eth: sellEth(state),
+  isBtcLoading: getIsBtcLoading(state),
+  isEthLoading: getIsEthLoading(state)
 });
 
 const mapDispatchToProps = {
