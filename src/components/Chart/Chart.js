@@ -26,20 +26,11 @@ const offsets = {
 };
 
 const Container = styled.div`
-  display: flex;
   width: 100%;
   padding-top: 50px;
-  max-width: 1280px;
-  margin: 0 auto;
 `;
 
-const Right = styled.div`
-  max-width: 720px;
-  flex: 1;
-  margin: 0 20px 0 auto;
-`;
-
-const RightHeader = styled.div`
+const ChartHeader = styled.div`
   font-size: 24px;
   margin-bottom: 30px;
 `;
@@ -79,7 +70,7 @@ const Button = styled.button`
   }
 `;
 
-class Score extends Component {
+class Chart extends Component {
   handleClick = e => {
     const { selectOffset } = this.props;
     selectOffset(e.target.dataset.name);
@@ -114,41 +105,39 @@ class Score extends Component {
 
     return (
       <Container>
-        <Right>
-          <RightHeader>Окно графика</RightHeader>
-          <ButtonsWrapper>{buttons}</ButtonsWrapper>
-          {isEthLoading || isBtcLoading ? (
-            <ChartWrapper>
-              <Preloader />
-            </ChartWrapper>
-          ) : (
-            <ChartWrapper>
-              {selected === "btc" ? (
-                <LineChart
-                  data={[
-                    { name: "Продажа", data: sellBtc },
-                    { name: "Покупка", data: purchaseBtc }
-                  ]}
-                  min={minBtc}
-                  max={maxBtc}
-                  width={100 + "%"}
-                  height={100 + "%"}
-                />
-              ) : (
-                <LineChart
-                  data={[
-                    { name: "Продажа", data: sellEth },
-                    { name: "Покупка", data: purchaseEth }
-                  ]}
-                  min={minEth}
-                  max={maxEth}
-                  width={100 + "%"}
-                  height={100 + "%"}
-                />
-              )}
-            </ChartWrapper>
-          )}
-        </Right>
+        <ChartHeader>Окно графика</ChartHeader>
+        <ButtonsWrapper>{buttons}</ButtonsWrapper>
+        {isEthLoading || isBtcLoading ? (
+          <ChartWrapper>
+            <Preloader />
+          </ChartWrapper>
+        ) : (
+          <ChartWrapper>
+            {selected === "btc" ? (
+              <LineChart
+                data={[
+                  { name: "Продажа", data: sellBtc },
+                  { name: "Покупка", data: purchaseBtc }
+                ]}
+                min={minBtc}
+                max={maxBtc}
+                width={100 + "%"}
+                height={100 + "%"}
+              />
+            ) : (
+              <LineChart
+                data={[
+                  { name: "Продажа", data: sellEth },
+                  { name: "Покупка", data: purchaseEth }
+                ]}
+                min={minEth}
+                max={maxEth}
+                width={100 + "%"}
+                height={100 + "%"}
+              />
+            )}
+          </ChartWrapper>
+        )}
       </Container>
     );
   }
@@ -173,4 +162,4 @@ const mapDispatchToProps = {
   selectOffset
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Score);
+export default connect(mapStateToProps, mapDispatchToProps)(Chart);
