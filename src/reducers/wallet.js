@@ -70,3 +70,8 @@ export default combineReducers({
   coins,
   error
 });
+
+export const getWalletError = state => state.wallet.error;
+export const getWalletUsd = state => state.wallet.coins.usd;
+export const getWalletBtc = state => state.wallet.coins.btc;
+export const getWalletEth = state => state.wallet.coins.eth;
