@@ -37,6 +37,10 @@ const CurrencyLink = styled(Link)`
   justify-content: center;
   text-align: center;
   margin-right: 20px;
+  color: #c3c3c3;
+  &:hover {
+    color: #fff;
+  }
 `;
 
 const RoundedButton = styled.div`
@@ -47,6 +51,21 @@ const RoundedButton = styled.div`
 `;
 
 class MainHeader extends Component {
+  state = {
+    Btc: 0,
+    Eth: 0
+  };
+
+  getCurrencyValue = () => {
+    const { sellBtc, sellEth } = this.props;
+    sellBtc[0] && sellEth[0]
+      ? this.setState({
+          Btc: Math.round(sellBtc[0][1]),
+          Eth: Math.round(sellEth[0][1])
+        })
+      : null;
+  };
+
   setCurrency = link => {
     const { selectBtc, selectEth } = this.props;
     if (link === "btc") {
@@ -67,19 +86,21 @@ class MainHeader extends Component {
     if (link && link !== nextLink) {
       this.setCurrency(nextLink);
     }
+    this.getCurrencyValue();
   }
 
   render() {
-    const { Btc, Eth } = this.props;
     return (
       <div>
         <Topline>
           <Container>
             <Logo src={logoWhite} alt="j-trading logo" />
             <CurrencyLink to="/trade/btc">
+              <b>{this.state.Btc}</b>
               <b>1 BTC</b>
             </CurrencyLink>
             <CurrencyLink to="/trade/eth">
+              <b>{this.state.Eth}</b>
               <b>1 ETH</b>
             </CurrencyLink>
             <RoundedButton>user123@mail.ru</RoundedButton>
@@ -91,8 +112,8 @@ class MainHeader extends Component {
 }
 
 const mapStateToProps = state => ({
-  Btc: sellBtc(state),
-  Eth: sellEth(state)
+  sellBtc: sellBtc(state),
+  sellEth: sellEth(state)
 });
 
 const mapDispatchToProps = {
