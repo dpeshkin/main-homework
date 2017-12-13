@@ -34,34 +34,25 @@ export const error = handleActions(
 
 export const btc = handleActions(
   {
-    [sellCurrencySuccess]: (state, action) =>
-      action.payload.currencyName === "btc"
-        ? state.coins.usd - action.payload.value
-        : state,
-    [buyCurrencySuccess]: (state, action) =>
-      action.payload.currencyName === "btc"
-        ? state.coins.usd + action.payload.value
-        : state
+    [fetchWalletSuccess]: (state, action) => action.payload.data.result.btc,
+    [sellCurrencySuccess]: (state, action) => action.payload.data.btc,
+    [buyCurrencySuccess]: (state, action) => action.payload.data.btc
   },
   0
 );
 export const eth = handleActions(
   {
-    [sellCurrencySuccess]: (state, action) =>
-      action.payload.currencyName === "eth"
-        ? state.coins.usd - action.payload.value
-        : state,
-    [buyCurrencySuccess]: (state, action) =>
-      action.payload.currencyName === "eth"
-        ? state.coins.usd + action.payload.value
-        : state
+    [fetchWalletSuccess]: (state, action) => action.payload.data.result.eth,
+    [sellCurrencySuccess]: (state, action) => action.payload.data.eth,
+    [buyCurrencySuccess]: (state, action) => action.payload.data.eth
   },
   0
 );
 export const usd = handleActions(
   {
-    [sellCurrencySuccess]: (state, action) => action.payload,
-    [buyCurrencySuccess]: (state, action) => action.payload
+    [fetchWalletSuccess]: (state, action) => action.payload.data.result.usd,
+    [sellCurrencySuccess]: (state, action) => action.payload.data.usd,
+    [buyCurrencySuccess]: (state, action) => action.payload.data.usd
   },
   10000
 );

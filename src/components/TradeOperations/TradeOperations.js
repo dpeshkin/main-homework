@@ -5,6 +5,7 @@ import {
   buyCurrencyRequest,
   sellCurrencyRequest
 } from "../../actions/currency";
+import { fetchWalletRequest } from "../../actions/wallet";
 import {
   getCurrentBtcPurchase,
   getCurrentBtcSell,
@@ -123,6 +124,10 @@ class TradeOperations extends Component {
     str = str.slice(zeroPos + 1);
     return str;
   };
+
+  componentDidMount() {
+    this.props.fetchWalletRequest();
+  }
 
   componentWillReceiveProps(nextProps) {
     const { walletUsd, walletBtc, walletEth, sell, purchase } = nextProps;
@@ -288,7 +293,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   buyCurrencyRequest,
-  sellCurrencyRequest
+  sellCurrencyRequest,
+  fetchWalletRequest
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TradeOperations);

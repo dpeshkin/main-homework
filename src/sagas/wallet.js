@@ -6,8 +6,13 @@ import {
   sellCurrencySuccess,
   sellCurrencyFailure
 } from "../actions/currency";
+import {
+  fetchWalletRequest,
+  fetchWalletSuccess,
+  fetchWalletFailure
+} from "../actions/wallet";
 import { takeLatest, put, call } from "redux-saga/effects";
-import { getWallet, getUserInfo, buyCurrency, sellCurrency } from "../api";
+import { getWallet, buyCurrency, sellCurrency } from "../api";
 
 export function* ByuCurrencyFlow(action) {
   try {
@@ -35,10 +40,23 @@ export function* SellCurrencyFlow(action) {
   }
 }
 
+export function* WalletFlow() {
+  try {
+    const result = yield call(getWallet);
+    yield put(fetchWalletSuccess(result));
+  } catch (error) {
+    yield put(fetchWalletFailure(error));
+  }
+}
+
 export function* buyWatch() {
   yield takeLatest(buyCurrencyRequest, ByuCurrencyFlow);
 }
 
 export function* sellWatch() {
   yield takeLatest(sellCurrencyRequest, SellCurrencyFlow);
+}
+
+export function* walletWatch() {
+  yield takeLatest(fetchWalletRequest, WalletFlow);
 }
