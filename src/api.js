@@ -56,7 +56,6 @@ export const sellCurrency = (currency, value) =>
   instance
     .get(`stock/exchange?symbol=${currency}&operation=sell&sum=${value}`)
     .then(response => {
-      console.log(response);
       if (response.data.result === "error")
         return Promise.reject(response.data.message);
       return response;

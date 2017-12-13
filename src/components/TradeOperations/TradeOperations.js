@@ -168,7 +168,6 @@ class TradeOperations extends Component {
     const { currencyName } = this.props;
     const { inputFiat } = this.state;
     this.props.buyCurrencyRequest({ currencyName, value: inputFiat });
-    console.log(currencyName, inputFiat);
   };
 
   changeInputs(name, sell, purchase) {
@@ -236,7 +235,7 @@ class TradeOperations extends Component {
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
             name="inputFiat"
-            value={inputFiat}
+            value={inputFiat || ""}
           />
           <Currency>{currencyName.toUpperCase()}</Currency>
         </InputWrapper>
@@ -247,7 +246,7 @@ class TradeOperations extends Component {
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
               name="inputPurchase"
-              value={inputPurchase}
+              value={inputPurchase || ""}
             />
             <Currency>$</Currency>
           </InputWrapper>
@@ -260,7 +259,7 @@ class TradeOperations extends Component {
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
               name="inputSell"
-              value={inputSell}
+              value={inputSell || ""}
             />
             <Currency>$</Currency>
           </InputWrapper>
@@ -280,10 +279,6 @@ const mapStateToProps = state => ({
     getSelected(state) === "btc"
       ? getCurrentBtcPurchase(state)
       : getCurrentEthPurchase(state),
-  // currentBtcPurchase: getCurrentBtcPurchase(state),
-  // currentBtcSell: getCurrentBtcSell(state),
-  // currentEthPurchase: getCurrentEthPurchase(state),
-  // currentEthSell: getCurrentEthSell(state),
   currencyName: getSelected(state),
   walletUsd: getWalletUsd(state),
   walletBtc: getWalletBtc(state),
