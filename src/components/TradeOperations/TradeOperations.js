@@ -163,6 +163,7 @@ class TradeOperations extends Component {
     const { currencyName } = this.props;
     const { inputFiat } = this.state;
     this.props.buyCurrencyRequest({ currencyName, value: inputFiat });
+    console.log(currencyName, inputFiat);
   };
 
   changeInputs(name, sell, purchase) {
@@ -204,11 +205,11 @@ class TradeOperations extends Component {
     }
   }
   render() {
-    const { error, currencyName } = this.props;
+    const { walletError, currencyName } = this.props;
     const { inputFiat, inputSell, inputPurchase } = this.state;
 
     const Currencies = ["usd", "btc", "eth"].map(el => (
-      <WalletCurrency>
+      <WalletCurrency key={el}>
         <CurrencyQuantity>
           <IntegerPart>{Math.floor(this.state[el]) + "."}</IntegerPart>
           <DecimalPart>{this.getDecimal(this.state[el])}</DecimalPart>
@@ -260,7 +261,7 @@ class TradeOperations extends Component {
           </InputWrapper>
           <ButtonPurchase onClick={this.handleBuy}>Купить</ButtonPurchase>
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {walletError && <p style={{ color: "red" }}>{walletError}</p>}
       </Container>
     );
   }

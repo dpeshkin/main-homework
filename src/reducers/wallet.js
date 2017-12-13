@@ -5,7 +5,12 @@ import {
   fetchWalletSuccess,
   fetchWalletFailure
 } from "../actions/wallet";
-import { buyCurrencySuccess, sellCurrencySuccess } from "../actions/currency";
+import {
+  buyCurrencySuccess,
+  sellCurrencySuccess,
+  buyCurrencyFailure,
+  sellCurrencyFailure
+} from "../actions/currency";
 
 export const isLoading = handleActions(
   {
@@ -20,7 +25,9 @@ export const error = handleActions(
   {
     [fetchWalletRequest]: () => null,
     [fetchWalletSuccess]: () => null,
-    [fetchWalletFailure]: (state, action) => action.payload
+    [fetchWalletFailure]: (state, action) => action.payload,
+    [buyCurrencyFailure]: (state, action) => action.payload,
+    [sellCurrencyFailure]: (state, action) => action.payload
   },
   null
 );
