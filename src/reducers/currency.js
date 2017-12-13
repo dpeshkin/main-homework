@@ -27,17 +27,13 @@ export const offset = handleActions(
 );
 export const btc = handleActions(
   {
-    [fetchBtcRequest]: () => [],
-    [fetchBtcSuccess]: (state, action) => action.payload,
-    [fetchBtcFailure]: error => error
+    [fetchBtcSuccess]: (state, action) => action.payload
   },
   []
 );
 export const eth = handleActions(
   {
-    [fetchEthRequest]: () => [],
-    [fetchEthSuccess]: (state, action) => action.payload,
-    [fetchEthFailure]: error => error
+    [fetchEthSuccess]: (state, action) => action.payload
   },
   []
 );
