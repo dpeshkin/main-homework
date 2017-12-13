@@ -127,7 +127,9 @@ class TradeOperations extends Component {
   componentWillReceiveProps(nextProps) {
     const { walletUsd, walletBtc, walletEth, sell, purchase } = nextProps;
     const { currentInput } = this.state;
-    this.changeInputs(currentInput, sell, purchase);
+    if (sell || purchase) {
+      this.changeInputs(currentInput, sell, purchase);
+    }
     this.setState({
       usd: walletUsd,
       btc: walletBtc,
