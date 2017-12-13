@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectBtc, selectEth } from "../../actions/currency";
-import { currentBtcSell, currentEthSell } from "../../reducers/currency";
+import { getCurrentBtcSell, getCurrentEthSell } from "../../reducers/currency";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import logoWhite from "../../images/icons/Logo-white.svg";
@@ -116,8 +116,8 @@ class MainHeader extends Component {
 }
 
 const mapStateToProps = state => ({
-  Btc: currentBtcSell(state),
-  Eth: currentEthSell(state)
+  Btc: getCurrentBtcSell(state),
+  Eth: getCurrentEthSell(state)
 });
 
 const mapDispatchToProps = {

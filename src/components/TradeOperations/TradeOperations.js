@@ -6,10 +6,10 @@ import {
   sellCurrencyRequest
 } from "../../actions/currency";
 import {
-  sellBtc,
-  purchaseBtc,
-  sellEth,
-  purchaseEth,
+  getCurrentBtcPurchase,
+  getCurrentBtcSell,
+  getCurrentEthPurchase,
+  getCurrentEthSell,
   getSelected
 } from "../../reducers/currency";
 import {
@@ -264,10 +264,18 @@ class TradeOperations extends Component {
   }
 }
 const mapStateToProps = state => ({
-  purchaseBtc: purchaseBtc(state),
-  purchaseEth: purchaseEth(state),
-  sellBtc: sellBtc(state),
-  sellEth: sellEth(state),
+  sell:
+    getSelected(state) === "btc"
+      ? getCurrentBtcSell(state)
+      : getCurrentEthSell(state),
+  purchase:
+    getSelected(state) === "btc"
+      ? getCurrentBtcPurchase(state)
+      : getCurrentEthPurchase(state),
+  // currentBtcPurchase: getCurrentBtcPurchase(state),
+  // currentBtcSell: getCurrentBtcSell(state),
+  // currentEthPurchase: getCurrentEthPurchase(state),
+  // currentEthSell: getCurrentEthSell(state),
   currencyName: getSelected(state),
   walletUsd: getWalletUsd(state),
   walletBtc: getWalletBtc(state),
