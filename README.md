@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/ekb196/main-homework.svg?branch=master)](https://travis-ci.org/ekb196/main-homework)
 
+[Финальная версия проекта](http://practical-curie-1328b1.netlify.com/)
+
 # Большой домашний проект
 
 Большой домашний проект поделен на несколько частей. Работа с сетью реализована
