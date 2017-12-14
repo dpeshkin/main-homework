@@ -132,9 +132,7 @@ class TradeOperations extends Component {
   componentWillReceiveProps(nextProps) {
     const { walletUsd, walletBtc, walletEth, sell, purchase } = nextProps;
     const { currentInput } = this.state;
-    if (sell || purchase) {
-      this.changeInputs(currentInput, sell, purchase);
-    }
+    this.changeInputs(currentInput, sell, purchase);
     this.setState({
       usd: walletUsd,
       btc: walletBtc,
@@ -235,7 +233,7 @@ class TradeOperations extends Component {
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
             name="inputFiat"
-            value={inputFiat || ""}
+            value={inputFiat}
           />
           <Currency>{currencyName.toUpperCase()}</Currency>
         </InputWrapper>
@@ -246,7 +244,7 @@ class TradeOperations extends Component {
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
               name="inputPurchase"
-              value={inputPurchase || ""}
+              value={inputPurchase}
             />
             <Currency>$</Currency>
           </InputWrapper>
@@ -259,7 +257,7 @@ class TradeOperations extends Component {
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
               name="inputSell"
-              value={inputSell || ""}
+              value={inputSell}
             />
             <Currency>$</Currency>
           </InputWrapper>

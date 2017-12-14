@@ -59,8 +59,8 @@ class MainHeader extends Component {
 
   getCurrencyValue = props => {
     const { Btc, Eth } = props;
-    if (Btc) this.setState({ Btc: Math.round(Btc) });
-    if (Eth) this.setState({ Eth: Math.round(Eth) });
+    this.setState({ Btc: Math.round(Btc) });
+    this.setState({ Eth: Math.round(Eth) });
   };
 
   setCurrency = link => {
