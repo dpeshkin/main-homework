@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ekb196/main-homework.svg?branch=master)](https://travis-ci.org/ekb196/main-homework)
+
 # Большой домашний проект
 
 Большой домашний проект поделен на несколько частей. Работа с сетью реализована
