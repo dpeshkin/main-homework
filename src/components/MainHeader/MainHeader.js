@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { fetchUserInfoRequest } from "../../actions/user";
 import { selectBtc, selectEth } from "../../actions/currency";
 import { getCurrentBtcSell, getCurrentEthSell } from "../../reducers/currency";
+import { getUserEmail } from "../../reducers/user";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import logoWhite from "../../images/icons/Logo-white.svg";
@@ -75,6 +77,7 @@ class MainHeader extends Component {
   componentDidMount() {
     const link = this.props.match.params.currency;
     this.setCurrency(link);
+    this.props.fetchUserInfoRequest();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,6 +91,7 @@ class MainHeader extends Component {
 
   render() {
     const currency = this.props.match.params.currency;
+    const { userEmail } = this.props;
     return (
       <div>
         <Topline>
@@ -107,7 +111,7 @@ class MainHeader extends Component {
               <b>{this.state.Eth}</b>
               <b>1 ETH</b>
             </CurrencyLink>
-            <RoundedButton>user123@mail.ru</RoundedButton>
+            <RoundedButton>{userEmail}</RoundedButton>
           </Container>
         </Topline>
       </div>
@@ -117,12 +121,14 @@ class MainHeader extends Component {
 
 const mapStateToProps = state => ({
   Btc: getCurrentBtcSell(state),
-  Eth: getCurrentEthSell(state)
+  Eth: getCurrentEthSell(state),
+  userEmail: getUserEmail(state)
 });
 
 const mapDispatchToProps = {
   selectBtc,
-  selectEth
+  selectEth,
+  fetchUserInfoRequest
 };
 
 export default withRouter(
