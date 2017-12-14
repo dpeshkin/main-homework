@@ -4,13 +4,15 @@ import {
   authLoginSuccess,
   authLoginFailure,
   authRegistrationSuccess,
-  authRegistrationFailure
+  authRegistrationFailure,
+  logout
 } from "../actions/auth";
 
 export const isAuthorized = handleActions(
   {
     [authLoginSuccess]: () => true,
-    [authRegistrationSuccess]: () => true
+    [authRegistrationSuccess]: () => true,
+    [logout]: () => false
   },
   false
 );

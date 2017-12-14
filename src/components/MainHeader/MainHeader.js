@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchUserInfoRequest } from "../../actions/user";
 import { selectBtc, selectEth } from "../../actions/currency";
+import { logout } from "../../actions/auth";
 import { getCurrentBtcSell, getCurrentEthSell } from "../../reducers/currency";
 import { getUserEmail } from "../../reducers/user";
 import { withRouter, Link } from "react-router-dom";
@@ -45,12 +46,43 @@ const CurrencyLink = styled(Link)`
     color: #fff;
   }
 `;
-
-const RoundedButton = styled.div`
+const UserInfo = styled.div`
+  position: relative;
+  z-index: 0;
+  &:hover div {
+    top: 100%;
+  }
+`;
+const UserEmail = styled.div`
   padding: 5px 25px;
-  background-color: #404243;
+  background: #404243;
   border-radius: 300px;
   margin: 0 25px;
+
+  &::after {
+    content: "";
+    display: inline-block;
+    vertical-align: baseline;
+    width: 0;
+    height: 0;
+    border-top: solid #fff 5px;
+    border-left: solid transparent 5px;
+    border-right: solid transparent 5px;
+    margin-left: 5px;
+  }
+`;
+const UserPopup = styled.div`
+  transition: top 0.5s ease-in-out;
+  background: #404243;
+  position: absolute;
+  top: 0;
+  padding: 4px 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  cursor: pointer;
+  text-decoration: underline;
+  border-top: solid 2px #515252;
 `;
 
 class MainHeader extends Component {
@@ -89,6 +121,10 @@ class MainHeader extends Component {
     this.getCurrencyValue(nextProps);
   }
 
+  handleLogout = () => {
+    this.props.logout();
+  };
+
   render() {
     const currency = this.props.match.params.currency;
     const { userEmail } = this.props;
@@ -111,7 +147,10 @@ class MainHeader extends Component {
               <b>{this.state.Eth}</b>
               <b>1 ETH</b>
             </CurrencyLink>
-            <RoundedButton>{userEmail}</RoundedButton>
+            <UserInfo>
+              <UserEmail>{userEmail}</UserEmail>
+              <UserPopup onClick={this.handleLogout}>Выйти</UserPopup>
+            </UserInfo>
           </Container>
         </Topline>
       </div>
@@ -128,7 +167,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   selectBtc,
   selectEth,
-  fetchUserInfoRequest
+  fetchUserInfoRequest,
+  logout
 };
 
 export default withRouter(

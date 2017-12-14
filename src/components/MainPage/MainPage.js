@@ -9,6 +9,7 @@ const Main = styled.div`
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  background: #f5f5f6;
 `;
 const Container = styled.div`
   flex: 1;
@@ -16,6 +17,8 @@ const Container = styled.div`
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
+  background: #fff;
+  flex-wrap: wrap;
 `;
 
 const Right = styled.div`

@@ -12,7 +12,7 @@ export class AppRouter extends Component {
     return (
       <Switch>
         <PrivateRoute path="/trade/:currency" component={MainPage} />
-        {!isAuthorized && <Route path="/login" component={LoginPage} />}
+        {!isAuthorized && <Route path="/*" component={LoginPage} />}
         <Redirect to="/trade/btc" />
       </Switch>
     );

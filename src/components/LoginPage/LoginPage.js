@@ -10,6 +10,7 @@ import { getLoginError, getRegistrationError } from "../../reducers/auth";
 
 //styles
 const Wrapper = styled.main`
+  z-index: 1;
   min-height: 100vh;
   width: 100vw;
   background-color: #f5f5f6;
