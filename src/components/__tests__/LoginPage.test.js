@@ -1,8 +1,7 @@
 import React from "react";
-import { LoginPage } from "../LoginPage/LoginPage";
+import { LoginPage, Button, Input } from "../LoginPage/LoginPage";
 import { shallow } from "enzyme";
-import { Input, Button } from "semantic-ui-react";
-import { styled } from "styled-components";
+import styled from "styled-components";
 
 describe("Components LoginPage", () => {
   const wrapper = shallow(<LoginPage />);

@@ -10,8 +10,6 @@ import styled from "styled-components";
 import logoWhite from "../../images/icons/Logo-white.svg";
 
 const Topline = styled.div`
-  width: 100vw;
-  height: 80px;
   background-color: #000;
   color: #fff;
 `;
@@ -23,6 +21,7 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 const Logo = styled.img`
@@ -33,56 +32,51 @@ const Logo = styled.img`
 
 const CurrencyLink = styled(Link)`
   width: 140px;
-  height: 100%;
+  padding: 20px 0;
   background-color: #404243;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   justify-content: center;
+  text-decoration: none;
   text-align: center;
   margin-right: 20px;
   color: ${props => (props.className === "active" ? "#fff" : "#c3c3c3")};
-  // color: #c3c3c3;
   &:hover {
     color: #fff;
   }
 `;
-const UserInfo = styled.div`
-  position: relative;
-  z-index: 0;
-  &:hover div {
-    top: 100%;
-  }
+const UserButtons = styled.div`
+  margin: 20px 0 20px 25px;
+  display: flex;
+  align-items: center;
 `;
-const UserEmail = styled.div`
+const Button = styled.div`
   padding: 5px 25px;
   background: #404243;
   border-radius: 300px;
-  margin: 0 25px;
-
-  &::after {
-    content: "";
-    display: inline-block;
-    vertical-align: baseline;
-    width: 0;
-    height: 0;
-    border-top: solid #fff 5px;
-    border-left: solid transparent 5px;
-    border-right: solid transparent 5px;
-    margin-left: 5px;
-  }
-`;
-const UserPopup = styled.div`
-  transition: top 0.5s ease-in-out;
-  background: #404243;
-  position: absolute;
-  top: 0;
-  padding: 4px 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: -1;
+  margin: 0 10px;
+  text-align: center;
   cursor: pointer;
+  white-space: nowrap;
+`;
+
+const LogoutButton = Button.extend`
   text-decoration: underline;
-  border-top: solid 2px #515252;
+  margin-right: 20px;
+`;
+
+const UserButton = Button.extend`
+&::after {
+  content: "";
+  display: inline-block;
+  vertical-align: baseline;
+  width: 0;
+  height: 0;
+  border-top: solid #fff 5px;
+  border-left: solid transparent 5px;
+  border-right: solid transparent 5px;
+  margin-left: 5px;
 `;
 
 class MainHeader extends Component {
@@ -129,31 +123,30 @@ class MainHeader extends Component {
     const currency = this.props.match.params.currency;
     const { userEmail } = this.props;
     return (
-      <div>
-        <Topline>
-          <Container>
-            <Logo src={logoWhite} alt="j-trading logo" />
-            <CurrencyLink
-              className={currency === "btc" ? "active" : null}
-              to="/trade/btc"
-            >
-              <b>{this.state.Btc}</b>
-              <b>1 BTC</b>
-            </CurrencyLink>
-            <CurrencyLink
-              className={currency === "eth" ? "active" : null}
-              to="/trade/eth"
-            >
-              <b>{this.state.Eth}</b>
-              <b>1 ETH</b>
-            </CurrencyLink>
-            <UserInfo>
-              <UserEmail>{userEmail}</UserEmail>
-              <UserPopup onClick={this.handleLogout}>Выйти</UserPopup>
-            </UserInfo>
-          </Container>
-        </Topline>
-      </div>
+      <Topline>
+        <Container>
+          <Logo src={logoWhite} alt="j-trading logo" />
+
+          <CurrencyLink
+            className={currency === "btc" ? "active" : null}
+            to="/trade/btc"
+          >
+            <b>{this.state.Btc}</b>
+            <b>1 BTC</b>
+          </CurrencyLink>
+          <CurrencyLink
+            className={currency === "eth" ? "active" : null}
+            to="/trade/eth"
+          >
+            <b>{this.state.Eth}</b>
+            <b>1 ETH</b>
+          </CurrencyLink>
+          <UserButtons>
+            <UserButton>{userEmail}</UserButton>
+            <LogoutButton onClick={this.handleLogout}>Выйти</LogoutButton>
+          </UserButtons>
+        </Container>
+      </Topline>
     );
   }
 }

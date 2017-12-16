@@ -5,7 +5,7 @@ import logoWhite from "../../images/icons/Logo-white.svg";
 const Logo = styled.img`
   width: 160px;
   height: 100%;
-  margin-left: auto;
+  margin: 0 20px 0 auto;
 `;
 
 const Footer = styled.footer`

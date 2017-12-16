@@ -1,38 +1,95 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import logo from "../../images/icons/Logo.svg";
+import userIcon from "../../images/icons/user-icon.svg";
+import unlockIcon from "../../images/icons/unlock-icon.svg";
 import Particles from "react-particles-js";
 import particlesParams from "../../particles-params";
-import { Button, Segment, Input } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { authLoginRequest, authRegistrationRequest } from "../../actions/auth";
 import { getLoginError, getRegistrationError } from "../../reducers/auth";
 
 //styles
-const Wrapper = styled.main`
-  z-index: 1;
+const Main = styled.main`
   min-height: 100vh;
-  width: 100vw;
   background-color: #f5f5f6;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
+
+const MainWrapper = styled.div`
+  width: 100%;
+  max-width: 440px;
+  z-index: 1;
+`;
+
 const Logo = styled.div`
-  width: 300px;
-  height: 150px;
-  margin: auto;
+  max-width: 300px;
+  flex: 1;
+  margin: 0 auto;
 `;
 
 const ResponsiveImg = styled.img`
   width: 100%;
-  height: 100%;
+  height: auto;
 `;
 
-const FormWrapper = styled.div`
+const Wrapper = styled.div`
+  position: relative;
+  margin: 0 10px;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(34, 36, 38, 0.12),
+    0 2px 10px 0 rgba(34, 36, 38, 0.15);
+  margin-bottom: 20px;
+  padding: 20px 20px;
+  border-radius: 7px;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  text-align: center;
+  font-size: 18px;
+`;
+
+const FormWrapper = Wrapper.extend`
+  padding: 30px 20px;
+  display: flex;
+`;
+
+const Form = styled.form`
   width: 100%;
-  max-width: 440px;
+`;
+
+const InputWrapper = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+`;
+
+export const Input = styled.input`
+  padding: 10px 10px 10px 50px;
+  border-radius: 5px;
+  width: 100%;
+  border: solid 1px #555;
+  background-image: url(${props => props.icon});
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  background-size: 20px;
+  opacity: 0.5;
+  &:focus {
+    opacity: 1;
+  }
+`;
+
+export const Button = styled.button`
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #4db6e2;
+  color: #fff;
+  cursor: pointer;
+  &:hover {
+    background-color: #36a3d1;
+  }
 `;
 
 export class LoginPage extends Component {
@@ -66,49 +123,46 @@ export class LoginPage extends Component {
     const { isAuthorized } = this.state;
     const { loginError, registrationError } = this.props;
     return (
-      <Wrapper>
+      <Main>
         <Particles
           params={particlesParams}
           style={{ position: "absolute", top: 0, left: 0 }}
         />
-        <FormWrapper>
+        <MainWrapper>
           <Logo>
             <ResponsiveImg src={logo} alt="j-trading logo" />
           </Logo>
 
-          <Segment raised style={{ padding: "20px 20px 30px" }}>
-            <form>
-              <Input
-                fluid
-                style={{ marginBottom: 25 }}
-                icon="user"
-                iconPosition="left"
-                placeholder="email"
-                size="large"
-                onChange={this.handleChange}
-                name="email"
-                value={this.state.email}
-              />
-              <Input
-                fluid
-                style={{ marginBottom: 25 }}
-                icon="unlock alternate"
-                iconPosition="left"
-                placeholder="password"
-                type="password"
-                size="large"
-                onChange={this.handleChange}
-                name="password"
-                value={this.state.password}
-              />
-              <Button color="blue" fluid size="big" onClick={this.handleSubmit}>
+          <FormWrapper>
+            <Form>
+              <InputWrapper>
+                <Input
+                  icon={userIcon}
+                  placeholder="email"
+                  onChange={this.handleChange}
+                  name="email"
+                  value={this.state.email}
+                  type="text"
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <Input
+                  icon={unlockIcon}
+                  placeholder="password"
+                  type="password"
+                  onChange={this.handleChange}
+                  name="password"
+                  value={this.state.password}
+                />
+              </InputWrapper>
+              <Button onClick={this.handleSubmit}>
                 {isAuthorized ? "Войти" : "Зарегистрироваться"}
               </Button>
-            </form>
-          </Segment>
+            </Form>
+          </FormWrapper>
 
           {loginError || registrationError ? (
-            <Segment raised textAlign="center" size="large">
+            <Wrapper>
               {(loginError && <p className="error-message">{loginError}</p>) ||
                 (registrationError &&
                   Object.keys(registrationError).map(type => (
@@ -116,10 +170,10 @@ export class LoginPage extends Component {
                       registrationError[type]
                     }`}</p>
                   )))}
-            </Segment>
+            </Wrapper>
           ) : null}
 
-          <Segment raised textAlign="center" size="large">
+          <Wrapper>
             {isAuthorized ? (
               <div>
                 Впервые на сайте?{" "}
@@ -135,9 +189,9 @@ export class LoginPage extends Component {
                 </a>
               </div>
             )}
-          </Segment>
-        </FormWrapper>
-      </Wrapper>
+          </Wrapper>
+        </MainWrapper>
+      </Main>
     );
   }
 }
