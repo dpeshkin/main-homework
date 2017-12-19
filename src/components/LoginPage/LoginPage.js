@@ -96,13 +96,18 @@ export class LoginPage extends Component {
   state = {
     email: "",
     password: "",
-    isAuthorized: true
+    isAuthorized: true,
+    formErrors: { email: "", password: "" },
+    emailValid: false,
+    passwordValid: false
   };
 
   handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value }, () => {
+      this.validateField(name, value);
+    });
   };
 
   handleSubmit = e => {
@@ -112,6 +117,29 @@ export class LoginPage extends Component {
       ? this.props.authLoginRequest({ email, password })
       : this.props.authRegistrationRequest({ email, password });
   };
+
+  validateField(fieldName, value) {
+    let fieldValidationErrors = this.state.formErrors;
+    let emailValid = this.state.emailValid;
+    let passwordValid = this.state.passwordValid;
+    switch (fieldName) {
+      case "email":
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        fieldValidationErrors.email = emailValid ? "" : " is invalid";
+        break;
+      case "password":
+        passwordValid = value.length >= 6;
+        fieldValidationErrors.password = passwordValid ? "" : " is too short";
+        break;
+      default:
+        break;
+    }
+    this.setState({
+      formErrors: fieldValidationErrors,
+      emailValid: emailValid,
+      passwordValid: passwordValid
+    });
+  }
 
   toggleForm = e => {
     e.preventDefault();
@@ -143,6 +171,7 @@ export class LoginPage extends Component {
                   name="email"
                   value={this.state.email}
                   type="text"
+                  onBlur={this.handleValidate}
                 />
               </InputWrapper>
               <InputWrapper>
@@ -153,6 +182,7 @@ export class LoginPage extends Component {
                   onChange={this.handleChange}
                   name="password"
                   value={this.state.password}
+                  onBlur={this.handleValidate}
                 />
               </InputWrapper>
               <Button onClick={this.handleSubmit}>
